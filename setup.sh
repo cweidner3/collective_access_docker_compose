@@ -27,7 +27,7 @@ function query_password() {
     if [[ ! -f $pass_file ]]; then
          read -s -p "Password for $name: " pword
          echo ""
-         echo "$pword" > "$pass_file"
+         echo "$pword" | tr -d '\n\r' > "$pass_file"
          chmod 0600 "$pass_file"
     fi
 }
