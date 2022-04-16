@@ -1,3 +1,4 @@
+export APP_FRONTEND_IMAGE=cweidner3/collective-access
 export APP_FRONTEND_PORT=80
 export APP_ADMINER_PORT=8080
 
