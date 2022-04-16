@@ -21,4 +21,23 @@ function dl_file() {
     fi
 }
 
+function query_password() {
+    local name="${1}"
+    local pass_file="${2}"
+    if [[ ! -f $pass_file ]]; then
+         read -s -p "Password for $name: " pword
+         echo ""
+         echo "$pword" > "$pass_file"
+         chmod 0600 "$pass_file"
+    fi
+}
+
 dl_file "$PROVIDENCE_FILE" "$PROVIDENCE_URL"
+
+mkdir -p secrets
+query_password 'db_pass' './secrets/db_pass.txt'
+query_password 'db_root_pass' './secrets/db_root_pass.txt'
+
+if [[ ! -f .env ]]; then
+    cp ./envs/dev.sh .env
+fi

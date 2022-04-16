@@ -6,10 +6,18 @@ CA_DIR="$(pwd)"
 
 CA_DB_HOST="${CA_DB_HOST:-localhost}"
 CA_DB_USER="${CA_DB_USER:-my_database_user}"
-CA_DB_PASSWORD="${CA_DB_PASSWORD:-my_database_password}"
+CA_DB_PASSWORD="${CA_DB_PASSWORD}"
+CA_DB_PASSWORD_FILE="${CA_DB_PASSWORD_FILE}"
 CA_DB_DATABASE="${CA_DB_DATABASE:-name_of_my_database}"
 CA_APP_DISPLAY_NAME="${CA_APP_DISPLAY_NAME:-My First CollectiveAccess System}"
 CA_ADMIN_EMAIL="${CA_ADMIN_EMAIL:-info@put-your-domain-here.com}"
+
+if [[ -n $CA_DB_PASSWORD_FILE ]]; then
+    CA_DB_PASSWORD="$(head -n1 "${CA_DB_PASSWORD_FILE}" | tr -d '\n\r')"
+elif [[ -z $CA_DB_PASSWORD ]]; then
+    echo "Error: Must specify CA_DB_PASSWORD or CA_DB_PASSWORD_FILE" >&2
+    exit 1
+fi
 
 CA_QUEUE_ENABLED="${CA_QUEUE_ENABLED:-0}"
 CA_DEFAULT_LOCALE="${CA_DEFAULT_LOCALE:-en_US}"
@@ -19,6 +27,16 @@ CA_GOOGLE_MAPS_KEY="${CA_GOOGLE_MAPS_KEY:-}"
 CA_CACHE_BACKEND="${CA_CACHE_BACKEND:-file}"
 CA_ALLOW_INSTALLER_TO_OVERWRITE_EXISTING_INSTALLS="${CA_ALLOW_INSTALLER_TO_OVERWRITE_EXISTING_INSTALLS:-false}"
 CA_STACKTRACE_ON_EXCEPTION="${CA_STACKTRACE_ON_EXCEPTION:-false}"
+
+APP_PHP_DEBUG_MODE="${APP_PHP_DEBUG_MODE:-0}"
+APP_PHP_UPLOAD_MAX_FILESIZE="${APP_PHP_UPLOAD_MAX_FILESIZE:-2M}"
+APP_PHP_POST_MAX_SIZE="${APP_PHP_POST_MAX_SIZE:-8M}"
+APP_PHP_MEMORY_LIMIT="${APP_PHP_MEMORY_LIMIT:-128M}"
+
+PHP_DISPLAY_ERRORS="Off"
+if [[ $APP_PHP_DEBUG_MODE -gt 0 ]]; then
+    PHP_DISPLAY_ERRORS="On"
+fi
 
 function set_var() {
     local var="${1}"
@@ -61,13 +79,13 @@ mkdir -p "${PHP_INI_DIR}/conf.d"
 cat > "${PHP_INI_DIR}/conf.d/01-conf.ini" <<EOF
 [PHP]
 ; Set ot larger tan the largest filesize
-upload_max_filesize = 2M
+upload_max_filesize = ${APP_PHP_UPLOAD_MAX_FILESIZE}
 ; Set to around the value of upload_max_filesize
-post_max_size = 8M
+post_max_size = ${APP_PHP_POST_MAX_SIZE}
 ; Increase if needed
-memory_limit = 128M
+memory_limit = ${APP_PHP_MEMORY_LIMIT}
 ; Enable this for setting things up, disable for production
-display_errors = On
+display_errors = ${PHP_DISPLAY_ERRORS}
 EOF
 
 find ./providence/media -not -user www-data -exec chown www-data:www-data {} +
