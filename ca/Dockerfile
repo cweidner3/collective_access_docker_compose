@@ -13,9 +13,8 @@ RUN cp "${PHP_INI_DIR}/php.ini-production" "${PHP_INI_DIR}/php.ini"
 COPY providence-1.7.14.tar.gz /tmp/
 
 WORKDIR /var/www/html
-RUN mkdir -p providence \
-    && tar -xf /tmp/providence-1.7.14.tar.gz --strip-components 1 -C providence \
-    && chown -R 33:33 ./providence
+RUN tar -xf /tmp/providence-1.7.14.tar.gz --strip-components 1 \
+    && chown -R 33:33 .
 
 RUN rm -rf /tmp/*
 

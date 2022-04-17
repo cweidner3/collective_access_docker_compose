@@ -18,9 +18,9 @@ services:
       APP_PHP_POST_MAX_SIZE: ${PHP_POST_MAX_SIZE:-64M}
       APP_PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT:-512M}
     volumes:
-    - ca_conf:/var/www/html/providence/app/conf/
-    - ca_media:/var/www/html/providence/media/
-    - ca_logs:/var/www/html/providence/app/log/
+    - ca_conf:/var/www/html/app/conf/
+    - ca_media:/var/www/html/media/
+    - ca_logs:/var/www/html/app/log/
     secrets:
     - source: db_pass
       uid: '0'
@@ -49,6 +49,10 @@ services:
       uid: '0'
       gid: '0'
       mode: 0440
+    healthcheck:
+      test: ["CMD", "mysqladmin", "-u$MYSQL_USER", "-p$MYSQL_PASSWORD",  "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
 
   adminer:
     image: adminer:4.8.1
