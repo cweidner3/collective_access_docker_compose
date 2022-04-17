@@ -3,6 +3,14 @@ version: "3.6"
 services:
   frontend:
     build: ./ca
+    volumes:
+    - ca_conf:/var/www/html/app/conf/
+    - ca_media:/var/www/html/media/
+    - ca_logs:/var/www/html/app/log/
+
+  mysql:
+    volumes:
+    - db_data:/var/lib/mysql
 
 volumes:
   ca_conf: {}

@@ -17,10 +17,6 @@ services:
       APP_PHP_UPLOAD_MAX_FILESIZE: ${PHP_UPLOAD_MAX_FILESIZE:-64M}
       APP_PHP_POST_MAX_SIZE: ${PHP_POST_MAX_SIZE:-64M}
       APP_PHP_MEMORY_LIMIT: ${PHP_MEMORY_LIMIT:-512M}
-    volumes:
-    - ca_conf:/var/www/html/app/conf/
-    - ca_media:/var/www/html/media/
-    - ca_logs:/var/www/html/app/log/
     secrets:
     - source: db_pass
       uid: '0'
@@ -32,8 +28,6 @@ services:
   mysql:
     image: mysql:8.0.28
     restart: always
-    volumes:
-    - db_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_pass
       MYSQL_DATABASE: ${MYSQL_DB_NAME:-db}
@@ -59,8 +53,6 @@ services:
     restart: always
     ports:
     - ${APP_ADMINER_PORT:-8080}:8080/tcp
-
-# NOTE: Volumes specified in other files
 
 secrets:
   db_pass:
