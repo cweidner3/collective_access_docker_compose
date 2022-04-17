@@ -15,3 +15,5 @@ export CA_APP_ADMIN_EMAIL="test@email.com"
 
 export NFS_ROOT_PATH=/mnt/md0/appdata
 export NFS_ADDRESS=192.168.1.10
+export NFS_USER=user
+export NFS_PASS=pass

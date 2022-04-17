@@ -15,21 +15,21 @@ services:
 volumes:
   ca_conf:
     driver_opts:
-      type: nfs
-      device: :${NFS_ROOT_PATH}/ca_conf
-      o: addr=${NFS_ADDRESS},nfsvers=4,nolock,async
+      type: cifs
+      device: //${NFS_ADDRESS}/appdata/ca_conf
+      o: addr=${NFS_ADDRESS},username=${NFS_USER},password=${NFS_PASS},file_mode=0777,dir_mode=0777
   ca_media:
     driver_opts:
-      type: nfs
-      device: :${NFS_ROOT_PATH}/ca_media
-      o: addr=${NFS_ADDRESS},nfsvers=4,nolock,async
+      type: cifs
+      device: //${NFS_ADDRESS}/appdata/ca_media
+      o: addr=${NFS_ADDRESS},username=${NFS_USER},password=${NFS_PASS},file_mode=0777,dir_mode=0777
   ca_logs:
     driver_opts:
-      type: nfs
-      device: :${NFS_ROOT_PATH}/ca_logs
-      o: addr=${NFS_ADDRESS},nfsvers=4,nolock,async
+      type: cifs
+      device: //${NFS_ADDRESS}/appdata/ca_logs
+      o: addr=${NFS_ADDRESS},username=${NFS_USER},password=${NFS_PASS},file_mode=0777,dir_mode=0777
   db_data:
     driver_opts:
-      type: nfs
-      device: :${NFS_ROOT_PATH}/ca_database
-      o: addr=${NFS_ADDRESS},nfsvers=4,nolock,async
+      type: cifs
+      device: //${NFS_ADDRESS}/appdata/ca_database
+      o: addr=${NFS_ADDRESS},username=${NFS_USER},password=${NFS_PASS},file_mode=0777,dir_mode=0777
