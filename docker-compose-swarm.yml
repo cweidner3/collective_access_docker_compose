@@ -3,3 +3,25 @@ version: "3.6"
 services:
   frontend:
     image: ${APP_FRONTEND_IMAGE}
+
+volumes:
+  ca_conf:
+    driver_opts:
+      type: nfs
+      device: :${NFS_ROOT_PATH}/ca_conf
+      o: addr=${NFS_ADDRESS},nfsvers=4,nolock,async
+  ca_media:
+    driver_opts:
+      type: nfs
+      device: :${NFS_ROOT_PATH}/ca_media
+      o: addr=${NFS_ADDRESS},nfsvers=4,nolock,async
+  ca_logs:
+    driver_opts:
+      type: nfs
+      device: :${NFS_ROOT_PATH}/ca_logs
+      o: addr=${NFS_ADDRESS},nfsvers=4,nolock,async
+  db_data:
+    driver_opts:
+      type: nfs
+      device: :${NFS_ROOT_PATH}/ca_database
+      o: addr=${NFS_ADDRESS},nfsvers=4,nolock,async

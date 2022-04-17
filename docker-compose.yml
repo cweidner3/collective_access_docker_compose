@@ -60,11 +60,7 @@ services:
     ports:
     - ${APP_ADMINER_PORT:-8080}:8080/tcp
 
-volumes:
-  ca_conf: {}
-  ca_media: {}
-  ca_logs: {}
-  db_data: {}
+# NOTE: Volumes specified in other files
 
 secrets:
   db_pass:

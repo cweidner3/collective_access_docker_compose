@@ -3,3 +3,9 @@ version: "3.6"
 services:
   frontend:
     build: ./ca
+
+volumes:
+  ca_conf: {}
+  ca_media: {}
+  ca_logs: {}
+  db_data: {}
