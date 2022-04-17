@@ -7,7 +7,7 @@ services:
     ports:
     - ${APP_FRONTEND_PORT:-80}:80/tcp
     environment:
-      CA_DB_HOST: mysql
+      CA_DB_HOST: ${MYSQL_DB_HOST:-mysql}
       CA_DB_USER: ${MYSQL_DB_USER:-user}
       CA_DB_PASSWORD_FILE: /run/secrets/db_pass
       CA_DB_DATABASE: ${MYSQL_DB_NAME:-db}
@@ -22,37 +22,6 @@ services:
       uid: '0'
       gid: '0'
       mode: 0440
-    depends_on:
-    - mysql
-
-  mysql:
-    image: mysql:8.0.28
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_pass
-      MYSQL_DATABASE: ${MYSQL_DB_NAME:-db}
-      MYSQL_USER: ${MYSQL_DB_USER:-user}
-      MYSQL_PASSWORD_FILE: /run/secrets/db_pass
-    command: --default-authentication-plugin=mysql_native_password
-    secrets:
-    - source: db_pass
-      uid: '0'
-      gid: '0'
-      mode: 0440
-    - source: db_root_pass
-      uid: '0'
-      gid: '0'
-      mode: 0440
-    healthcheck:
-      test: ["CMD", "mysqladmin", "-u$MYSQL_USER", "-p$MYSQL_PASSWORD",  "ping", "-h", "localhost"]
-      timeout: 5s
-      retries: 10
-
-  adminer:
-    image: adminer:4.8.1
-    restart: always
-    ports:
-    - ${APP_ADMINER_PORT:-8080}:8080/tcp
 
 secrets:
   db_pass:

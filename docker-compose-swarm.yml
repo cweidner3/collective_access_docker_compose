@@ -8,10 +8,6 @@ services:
     - ca_media:/var/www/html/media/
     - ca_logs:/var/www/html/app/log/
 
-  mysql:
-    volumes:
-    - db_data:/var/lib/mysql
-
 volumes:
   ca_conf:
     driver_opts:
@@ -27,9 +23,4 @@ volumes:
     driver_opts:
       type: cifs
       device: //${NFS_ADDRESS}/appdata/ca_logs
-      o: addr=${NFS_ADDRESS},username=${NFS_USER},password=${NFS_PASS},file_mode=0777,dir_mode=0777
-  db_data:
-    driver_opts:
-      type: cifs
-      device: //${NFS_ADDRESS}/appdata/ca_database
       o: addr=${NFS_ADDRESS},username=${NFS_USER},password=${NFS_PASS},file_mode=0777,dir_mode=0777
