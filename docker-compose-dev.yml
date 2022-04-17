@@ -30,10 +30,6 @@ services:
       uid: '0'
       gid: '0'
       mode: 0440
-    healthcheck:
-      test: ["CMD", "mysqladmin", "-u$MYSQL_USER", "-p$MYSQL_PASSWORD",  "ping", "-h", "localhost"]
-      timeout: 5s
-      retries: 10
 
   adminer:
     image: adminer:4.8.1
