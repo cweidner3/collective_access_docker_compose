@@ -15,6 +15,7 @@ default:
 	@echo ""
 	@echo "DEV ACTIONS"
 	@echo "  up"
+	@echo "  upd"
 	@echo "  down"
 	@echo "  full-down"
 	@echo "  ps"
@@ -33,6 +34,10 @@ default:
 .PHONY: up
 up: $(DEPS)
 	@docker-compose $(DEV_ARGS) up --build
+
+.PHONY: upd
+upd: $(DEPS)
+	@docker-compose $(DEV_ARGS) up --build -d
 
 .PHONY: down
 down: $(DEPS)
