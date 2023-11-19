@@ -1,5 +1,7 @@
 FROM php:7.4.28-apache
 
+ARG PROVIDENCE_VERSION=1.7.16 ENV PROVIDENCE_VERSION=${PROVIDENCE_VERSION}
+
 RUN apt update -y \
     && apt install -y \
         libzip4 libzip-dev libcurl4 libcurl4-openssl-dev libxml2 libxml2-dev libonig-dev \
@@ -23,10 +25,10 @@ RUN cp "${PHP_INI_DIR}/php.ini-production" "${PHP_INI_DIR}/php.ini"
 
 RUN cd /usr/bin && ln -s pdf2txt pdf2txt.py && ln -s dumppdf dumppdf.py
 
-COPY providence-1.7.14.tar.gz /tmp/
+ADD https://github.com/collectiveaccess/providence/archive/${PROVIDENCE_VERSION}.tar.gz /tmp/providence-${PROVIDENCE_VERSION}.tar.gz
 
 WORKDIR /var/www/html
-RUN tar -xf /tmp/providence-1.7.14.tar.gz --strip-components 1 \
+RUN tar -xf /tmp/providence-${PROVIDENCE_VERSION}.tar.gz --strip-components 1 \
     && chown -R 33:33 .
 
 # Patch fix to support newer pdfminer
